@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Beautiful Memory Lane 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 25%, #fecfef 50%, #ff9a9e 100%);
+            background-size: 400% 400%;
+            animation: memoryGradient 10s ease infinite;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            height: 100vh;
+        }
+
+        @keyframes memoryGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0 20px 0;
+            z-index: 100;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            animation: titleFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: #fff;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+        }
+
+        .gallery-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 45vh;
+            perspective: 900px;
+            margin-top: 150px;
+        }
+
+        .photo-carousel {
+            position: relative;
+            width: 350px;
+            height: 400px;
+            transform-style: preserve-3d;
+            animation: rotate3D 30s linear infinite;
+        }
+
+        @keyframes rotate3D {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(-360deg); }
+        }
+
+        .photo-item {
+            position: absolute;
+            width: 180px;
+            height: 260px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+            border: 4px solid #fff;
+            transition: all 0.5s ease;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* 15 images = 360deg / 15 = 24deg per image, optimized circle size */
+        .photo-item:nth-child(1) { transform: rotateY(90deg) translateZ(380px); }
+        .photo-item:nth-child(2) { transform: rotateY(114deg) translateZ(380px); }
+        .photo-item:nth-child(3) { transform: rotateY(138deg) translateZ(380px); }
+        .photo-item:nth-child(4) { transform: rotateY(162deg) translateZ(380px); }
+        .photo-item:nth-child(5) { transform: rotateY(186deg) translateZ(380px); }
+        .photo-item:nth-child(6) { transform: rotateY(210deg) translateZ(380px); }
+        .photo-item:nth-child(7) { transform: rotateY(234deg) translateZ(380px); }
+        .photo-item:nth-child(8) { transform: rotateY(258deg) translateZ(380px); }
+        .photo-item:nth-child(9) { transform: rotateY(282deg) translateZ(380px); }
+        .photo-item:nth-child(10) { transform: rotateY(306deg) translateZ(380px); }
+        .photo-item:nth-child(11) { transform: rotateY(330deg) translateZ(380px); }
+        .photo-item:nth-child(12) { transform: rotateY(354deg) translateZ(380px); }
+        .photo-item:nth-child(13) { transform: rotateY(18deg) translateZ(380px); }
+        .photo-item:nth-child(14) { transform: rotateY(42deg) translateZ(380px); }
+        .photo-item:nth-child(15) { transform: rotateY(66deg) translateZ(380px); }
+
+        .floating-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff6b6b;
+            font-size: 2rem;
+            animation: floatUp 8s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .controls {
+            text-align: center;
+        }
+
+        .control-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            color: white;
+            font-size: 16px;
+            margin: 0 10px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .next-adventure {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            padding: 18px 35px;
+            border-radius: 50px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.5);
+            transition: all 0.5s ease;
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .next-adventure:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.7);
+        }
+
+        .memory-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 1rem;
+            text-align: center;
+            background: rgba(0,0,0,0.8);
+            padding: 8px 15px;
+            border-radius: 12px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 10;
+            pointer-events: none;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            border: 2px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(5px);
+            max-width: 180px;
+            line-height: 1.3;
+        }
+
+        .photo-item:hover .memory-text {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Auto-playing memory music -->
+    <audio id="memoryMusic" loop autoplay>
+        <source src="bolly.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="floating-hearts" id="heartsContainer"></div>
+    
+    <div class="header">
+        <h1>Dumb Friends Memory Galaxy 🌟</h1>
+        <p class="subtitle">Every pic tells our crazy friendship story! 📸✨ Click anywhere!</p>
+    </div>
+
+    <div class="gallery-container">
+        <div class="photo-carousel" id="carousel">
+            <div class="photo-item">
+                <img src="media/2 (11).jpg" alt="Memory 8">
+                <div class="memory-text">Bachpan ka un-cuteness! 😍</div>
+            </div>
+            <div class="photo-item">
+                <img src="media/2 (19).jpg" alt="Memory 8">
+                <div class="memory-text">No memory, but bass asliyat samne laneka mood hua! 🤪</div>
+            </div>
+            <div class="photo-item">
+                <img src="media/1.png" alt="Memory 1">
+                <div class="memory-text">We started talking! 🤩</div>
+            </div>
+            <div class="photo-item">
+                <img src="media/2 (16).jpg" alt="Memory 2">
+                <div class="memory-text">Your first sent picture on Instagram! Ufff..ur cuteness💕</div>
+            </div>
+            <div class="photo-item">
+                <img src="media/2 (14).jpg" alt="Memory 2">
+                <div class="memory-text">Your 2nd sent picture on Instagram!😂 Yaa Allah!💕</div>
+            </div>
+            <div class="photo-item">
+                <img src="media/2 (20).jpg" alt="Memory 3">
+                <div class="memory-text">Happy MDC time, but worst ending! 😂</div>
+            </div>
+            <div class="photo-item"> 
+                <img src="media/2 (1).jpg" alt="Memory 4">
+                <div class="memory-text">Just one of those days! 🔥</div>
+            </div>
+            <div class="photo-item">
+                <img src="media/2 (22).jpg" alt="Memory 5">
+                <div class="memory-text">Meine Paise bhare ice-cream kha (Ab tak chukaye nai tune)! 🤪</div>
+            </div>
+            <div class="photo-item">
+                <img src="media/2 (4).jpg" alt="Memory 6">
+                <div class="memory-text">Ice-cream giradi thi JP ke katte pe bahaar! Remember? 😂</div>
+            </div>
+            <div class="photo-item">
+                <img src="media/2 (10).jpg" alt="Memory 7">
+                <div class="memory-text">RSO Thingss! Aniruddha ne banaya hua Sandwich! 😂</div>
+            </div>
+            <div class="photo-item">
+                <img src="media/2 (8).jpg" alt="Memory 8">
+                <div class="memory-text">Yet Another Sahil winning moment! 💫</div>
+            </div>
+            <div class="photo-item">
+                <img src="media/2 (6).jpg" alt="Memory 8">
+                <div class="memory-text">Diwali vibes! 💫</div>
+            </div>
+            <div class="photo-item">
+                <img src="media/sticker.jpg" alt="Memory 8">
+                <div class="memory-text">We both can't forget this one! 💫</div>
+            </div>
+            <div class="photo-item">
+                <img src="media/wol.jpg" alt="Memory 8">
+                <div class="memory-text">Wollaston ka application bharne subhe jaldi uthke baarish mein saath aaya tha! 💫</div>
+            </div>
+            <div class="photo-item">
+                <img src="media/2 (18).jpg" alt="Memory 8">
+                <div class="memory-text">Birthday Gift (2024)-> tere hi gharpe pada tha in that Wee ka Box 🤪</div>
+            </div>
+            <div class="photo-item">
+                <img src="media/block.jpg" alt="Memory 8">
+                <div class="memory-text">Pata nai kya milta hai usse tujhe! 💫</div>
+            </div>
+            <div class="photo-item">
+                <img src="media/fight.jpg" alt="Memory 8">
+                <div class="memory-text">Fight time! 💫</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="control-btn" onclick="pauseRotation()">⏸️ Pause Magic</button>
+        <button class="control-btn" onclick="resumeRotation()">▶️ Resume Magic</button>
+    </div>
+
+    <button class="next-adventure" onclick="window.location.href='quiz-time.html'">
+        🎮 Time for Fun Quiz! 🎮
+    </button>
+
+    <script>
+        let carousel = document.getElementById('carousel');
+        let isPaused = false;
+        let currentSpeed = 20;
+        
+        // Auto-play music setup
+        let memoryMusic = document.getElementById('memoryMusic');
+
+        // Handle autoplay restrictions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Try to play automatically
+            let playPromise = memoryMusic.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(function() {
+                    // Autoplay started successfully
+                    console.log('🎵 Memory music started automatically!');
+                }).catch(function(error) {
+                    // Autoplay was prevented - try to play on first user interaction
+                    console.log('Autoplay prevented, will start on first user interaction');
+                    document.addEventListener('click', function startMusicOnClick() {
+                        memoryMusic.play()
+                            .then(() => {
+                                console.log('🎵 Music started after user interaction!');
+                            })
+                            .catch(() => {
+                                console.log('Music failed to start');
+                            });
+                        // Remove the event listener after first successful play
+                        document.removeEventListener('click', startMusicOnClick);
+                    }, { once: true });
+                });
+            }
+        });
+
+        function pauseRotation() {
+            carousel.style.animationPlayState = 'paused';
+            isPaused = true;
+        }
+
+        function resumeRotation() {
+            carousel.style.animationPlayState = 'running';
+            isPaused = false;
+        }
+
+        function speedUp() {
+            currentSpeed = Math.max(5, currentSpeed - 3);
+            carousel.style.animation = `rotate3D ${currentSpeed}s linear infinite`;
+        }
+
+        // Floating hearts animation
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = ['💖', '💕', '💗', '💝', '💘'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDelay = Math.random() * 8 + 's';
+            heart.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+            document.getElementById('heartsContainer').appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 8000);
+        }
+
+        // Create hearts periodically
+        setInterval(createHeart, 1000);
+
+        // Mouse trail sparkles
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() < 0.1) {
+                const sparkle = document.createElement('div');
+                sparkle.innerHTML = '✨';
+                sparkle.style.position = 'absolute';
+                sparkle.style.left = e.pageX + 'px';
+                sparkle.style.top = e.pageY + 'px';
+                sparkle.style.fontSize = '20px';
+                sparkle.style.pointerEvents = 'none';
+                sparkle.style.zIndex = '999';
+                sparkle.style.animation = 'sparkle 1s linear forwards';
+                document.body.appendChild(sparkle);
+
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 1000);
+            }
+        });
+
+        // Add sparkle animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes sparkle {
+                0% { opacity: 1; transform: scale(1) rotate(0deg); }
+                100% { opacity: 0; transform: scale(0) rotate(180deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html> 

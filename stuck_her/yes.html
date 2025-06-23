@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forgiven! 💕</title>
+
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    /* Override container height for yes page */
+    .container {
+      max-height: 95vh !important;
+      padding: 25px !important;
+      overflow: visible !important;
+    }
+
+    .btn {
+      margin-top: 25px !important;
+      display: block !important;
+      text-align: center !important;
+    }
+
+    .special-message {
+      font-size: 1.2rem;
+      margin: 15px 0;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: bold;
+      animation: messageGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes messageGlow {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .finale-btn {
+      background: linear-gradient(45deg, #ff6b6b, #feca57) !important;
+      margin-top: 20px !important;
+      padding: 15px 30px !important;
+      font-size: 1.2rem !important;
+      animation: finalePulse 2s infinite !important;
+      display: block !important;
+      width: auto !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      position: relative !important;
+      z-index: 1000 !important;
+      color: white !important;
+      text-decoration: none !important;
+      border-radius: 50px !important;
+      border: none !important;
+      cursor: pointer !important;
+      box-shadow: 0 10px 30px rgba(255, 107, 107, 0.5) !important;
+    }
+
+    @keyframes finalePulse {
+      0% { transform: scale(1) rotate(0deg); }
+      50% { transform: scale(1.1) rotate(2deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    .finale-btn:hover {
+      transform: translateY(-10px) scale(1.15) !important;
+      box-shadow: 0 25px 50px rgba(255, 107, 107, 0.8) !important;
+    }
+
+    h2 {
+      font-size: 1.8rem !important;
+      margin-bottom: 15px !important;
+    }
+
+    /* Temporary debug style to force visibility */
+    .finale-btn {
+      background: red !important;
+      border: 5px solid yellow !important;
+      min-height: 50px !important;
+      width: 80% !important;
+      margin: 20px auto !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="tenor-gif-embed" data-postid="10807375270243322901" data-share-method="host" data-aspect-ratio="1.0"
+      data-width="100%">
+      <a
+        href="https://tenor.com/view/nubeo-beonu-%C4%91i-ch%C6%A1i-peachcat-play-gif-10807375270243322901">Nubeo Beonu Cats GIF</a>
+    </div>
+    <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+    
+    <h2>I knew it! You Can't stay without me for long! 😘</h2>
+    <p class="special-message">Now get ready for your AMAZING birthday surprise! 🎉</p>
+    
+    <div class="btn">
+      <a href="../birthday-finale.html" class="finale-btn">🎂 TIME FOR BIRTHDAY MAGIC! 🎂</a>
+    </div>
+  </div>
+
+  <script>
+    // Add floating hearts
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.innerHTML = '💖';
+      heart.style.position = 'absolute';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.top = '100vh';
+      heart.style.fontSize = '2rem';
+      heart.style.pointerEvents = 'none';
+      heart.style.zIndex = '1000';
+      heart.style.animation = 'heartFloat 6s linear forwards';
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+
+    setInterval(createHeart, 500);
+
+    // Add celebration message
+    setTimeout(() => {
+      alert('🥳 Yay! You forgave me! Now let\'s celebrate your birthday! 🎉');
+    }, 2000);
+  </script>
+</body>
+
+</html>

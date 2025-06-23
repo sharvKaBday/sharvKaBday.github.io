@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Quiz Madness! 🎯</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+            background-size: 400% 400%;
+            animation: quizGradient 12s ease infinite;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: white;
+        }
+
+        @keyframes quizGradient {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .quiz-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            min-height: 100vh;
+            justify-content: center;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .quiz-title {
+            font-size: 4rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            animation: bounceIn 2s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3) rotate(-180deg); opacity: 0; }
+            50% { transform: scale(1.1) rotate(-90deg); opacity: 0.8; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .quiz-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            animation: slideInUp 1.5s ease-out 0.5s both;
+        }
+
+        @keyframes slideInUp {
+            0% { transform: translateY(50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .question-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 30px;
+            transform: translateY(100px);
+            opacity: 0;
+            animation: slideInCard 1s ease-out 1s both;
+        }
+
+        @keyframes slideInCard {
+            0% { transform: translateY(100px) scale(0.9); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .question {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .option {
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 154, 158, 0.3);
+            font-weight: bold;
+            transform: scale(0);
+            animation: popIn 0.5s ease-out forwards;
+        }
+
+        .option:nth-child(1) { animation-delay: 1.5s; }
+        .option:nth-child(2) { animation-delay: 1.7s; }
+        .option:nth-child(3) { animation-delay: 1.9s; }
+        .option:nth-child(4) { animation-delay: 2.1s; }
+
+        @keyframes popIn {
+            0% { transform: scale(0) rotate(-180deg); }
+            80% { transform: scale(1.1) rotate(10deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        .option:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 154, 158, 0.5);
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: white;
+        }
+
+        .option:active {
+            transform: scale(0.95);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+            animation: progressGlow 2s ease infinite;
+        }
+
+        @keyframes progressGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 107, 107, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(78, 205, 196, 0.8); }
+        }
+
+        .score-display {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            animation: confettiFall 3s linear infinite;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .next-phase {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            padding: 18px 35px;
+            border-radius: 50px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+            transition: all 0.5s ease;
+            margin-top: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .next-phase:hover {
+            transform: translateY(-5px) scale(1.1);
+        }
+
+        .retry-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.5);
+            z-index: 10000;
+            color: #333;
+            display: none;
+            animation: popupBounce 0.5s ease-out;
+        }
+
+        @keyframes popupBounce {
+            0% { transform: translate(-50%, -50%) scale(0.3) rotate(-10deg); opacity: 0; }
+            60% { transform: translate(-50%, -50%) scale(1.1) rotate(5deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .retry-popup h3 {
+            font-size: 2rem;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .retry-popup p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .retry-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .retry-btn {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(79, 172, 254, 0.6);
+        }
+
+        .skip-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .skip-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(255, 107, 107, 0.6);
+        }
+
+        .chances-display {
+            position: fixed;
+            top: 80px;
+            right: 30px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+        }
+
+        .floating-emojis {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        @keyframes emojiFloat {
+            0% { 
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% { 
+                opacity: 1;
+            }
+            90% { 
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="floating-emojis" id="emojiContainer"></div>
+    <div class="confetti-container" id="confettiContainer"></div>
+    
+    <div class="score-display">
+        🏆 Score: <span id="score">0</span>/4
+    </div>
+
+    <div class="chances-display" id="chancesDisplay">
+        💔 Chances: <span id="chances">3</span>/3
+    </div>
+
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1 class="quiz-title">Birthday Girl Quiz! 🎯</h1>
+            <p class="quiz-subtitle">How well do you know yourself? Let's find out! 😏</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress" id="progress" style="width: 20%"></div>
+        </div>
+
+        <div class="question-card" id="questionCard">
+            <div class="question" id="question">
+                What's your secret superpower as a bestie? 🦸‍♀️
+            </div>
+            <div class="options">
+                <button class="option" onclick="selectAnswer(this, true)">Making everyone cry who will be falling for you😂</button>
+                <button class="option" onclick="selectAnswer(this, false)">More Dramebaaz than me! 🎭</button>
+                <button class="option" onclick="selectAnswer(this, true)">Sahil yaar Shift nai milri. Next week ki koi hai kya? 🍿</button>
+                <button class="option" onclick="selectAnswer(this, true)">Being my mood booster 24/7 ⚡</button>
+            </div>
+        </div>
+
+        <button class="next-phase" id="nextBtn" onclick="nextQuestion()">
+            Next Adventure! 🚀
+        </button>
+    </div>
+
+    <div class="reaction-popup" id="reactionPopup"></div>
+
+    <!-- Retry Popup -->
+    <div class="retry-popup" id="retryPopup">
+        <h3>Wrong!! Offo! 😅</h3>
+        <p>Wanna try one more time? 🤔</p>
+        <div class="retry-buttons">
+            <button class="retry-btn" onclick="retryQuestion()">🔄 Yes, Try Again!</button>
+            <button class="skip-btn" onclick="skipQuestion()">⏭️ Skip This One</button>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 0;
+        let score = 0;
+        let currentChances = 3;
+        const totalQuestions = 4;
+        let questionAnswered = false;
+
+        const questions = [
+            {
+                question: "What's your secret superpower as a bestie? 🦸‍♀️",
+                options: [
+                    {text: "Making everyone cry who will be falling for you😂", correct: true},
+                    {text: "More Dramebaaz than me! 🎭", correct: false},
+                    {text: "Sahil yaar Shift nai milri. Next week ki koi hai kya? 🍿", correct: true},
+                    {text: "Being my mood booster 24/7 ⚡", correct: true}
+                ]
+            },
+            {
+                question: "What's your birthday mood today? 🎂",
+                options: [
+                    {text: "Ready to party till sunrise! 🌅", correct: false},
+                    {text: "Sleepy but excited! 😴✨", correct: false},
+                    {text: "Anii time! 👑", correct: false},
+                    {text: "Calling Sahil to say Thank you, it means alot! You are the best! Let's meet today!🤗", correct: true}
+                ]
+            },
+            {
+                question: "Which birthday wish describes you best? ✨",
+                options: [
+                    {text: "May your year be filled with adventures! 🗺️", correct: false},
+                    {text: "May Sahil get what he wishes for! 💫", correct: true},
+                    {text: "May your WiFi always be strong! (Ashleel) 📶", correct: false},
+                    {text: "May Anii be with you always! 🤳", correct: false}
+                ]
+            },
+            {
+                question: "How should we celebrate your birthday? 🎉",
+                options: [
+                    {text: "With lots of cake on your cute lil face and lots of laughter! 🎂😄", correct: true},
+                    {text: "Making more crazy memories! Reele banaayege!📸", correct: true},
+                    {text: "Dancing like nobody's watching! (Aniruddha choreographing) 💃", correct: true},
+                    {text: "Just Ani and Me! 😄", correct: true}
+                ]
+            }
+        ];
+
+        const reactions = {
+            correct: ["Yasss Queen! 👑", "Spot on! 🎯", "You know yourself! 😎", "Perfect! ✨"],
+            incorrect: ["Haha nice try! 😄", "Almost there! 💕", "That's funny! 😂", "Good guess! 🤔"]
+        };
+
+        function selectAnswer(button, isCorrect) {
+            if (questionAnswered) return; // Prevent multiple clicks
+            
+            // Disable all options temporarily
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+
+            if (isCorrect) {
+                // Correct answer
+                questionAnswered = true;
+                score++;
+                button.style.background = 'linear-gradient(45deg, #00f2fe, #4facfe)';
+                createConfetti();
+                
+                // Show reaction
+                const reactionPopup = document.getElementById('reactionPopup');
+                const reactionTexts = reactions.correct;
+                reactionPopup.textContent = reactionTexts[Math.floor(Math.random() * reactionTexts.length)];
+                reactionPopup.classList.add('show');
+
+                // Update score
+                document.getElementById('score').textContent = score;
+
+                // Show next button
+                setTimeout(() => {
+                    reactionPopup.classList.remove('show');
+                    document.getElementById('nextBtn').classList.add('show');
+                }, 2000);
+
+            } else {
+                // Wrong answer
+                button.style.background = 'linear-gradient(45deg, #ff6b6b, #ee5a24)';
+                currentChances--;
+                document.getElementById('chances').textContent = currentChances;
+                
+                if (currentChances > 0) {
+                    // Show retry popup
+                    setTimeout(() => {
+                        document.getElementById('retryPopup').style.display = 'block';
+                    }, 1000);
+                } else {
+                    // No more chances - move to next question
+                    questionAnswered = true;
+                    
+                    // Show reaction
+                    const reactionPopup = document.getElementById('reactionPopup');
+                    reactionPopup.textContent = "No more chances! Let's move on! 😅";
+                    reactionPopup.classList.add('show');
+
+                    setTimeout(() => {
+                        reactionPopup.classList.remove('show');
+                        document.getElementById('nextBtn').classList.add('show');
+                    }, 2000);
+                }
+            }
+        }
+
+        function retryQuestion() {
+            // Hide retry popup
+            document.getElementById('retryPopup').style.display = 'none';
+            
+            // Re-enable options (but keep wrong answers marked)
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => {
+                if (opt.style.background.includes('ff6b6b')) {
+                    // Keep wrong answers disabled and marked
+                    opt.style.pointerEvents = 'none';
+                } else {
+                    // Re-enable other options
+                    opt.style.pointerEvents = 'auto';
+                }
+            });
+        }
+
+        function skipQuestion() {
+            // Hide retry popup
+            document.getElementById('retryPopup').style.display = 'none';
+            
+            // Mark question as answered and show next button
+            questionAnswered = true;
+            setTimeout(() => {
+                document.getElementById('nextBtn').classList.add('show');
+            }, 500);
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion >= totalQuestions) {
+                // Quiz complete - go to next page
+                setTimeout(() => {
+                    window.location.href = 'stuck_her/index.html';
+                }, 1000);
+                return;
+            }
+
+            // Reset for new question
+            questionAnswered = false;
+            currentChances = 3;
+            document.getElementById('chances').textContent = currentChances;
+
+            // Update progress
+            const progress = ((currentQuestion + 1) / totalQuestions) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+
+            // Load next question
+            const q = questions[currentQuestion];
+            document.getElementById('question').textContent = q.question;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach((opt, index) => {
+                opt.textContent = q.options[index].text;
+                opt.style.pointerEvents = 'auto';
+                opt.style.background = 'linear-gradient(45deg, #ff9a9e, #fecfef)';
+                opt.style.color = '#333';
+                opt.onclick = () => selectAnswer(opt, q.options[index].correct);
+            });
+
+            // Hide next button
+            document.getElementById('nextBtn').classList.remove('show');
+        }
+
+        function createConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57'];
+            
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(confetti);
+
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
+        }
+
+        function createFloatingEmoji() {
+            const emojis = ['🎂', '🎉', '🎈', '🎁', '✨', '💖', '🌟', '🎊'];
+            const emoji = document.createElement('div');
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.position = 'absolute';
+            emoji.style.left = Math.random() * 100 + 'vw';
+            emoji.style.top = '100vh';
+            emoji.style.fontSize = '2rem';
+            emoji.style.pointerEvents = 'none';
+            emoji.style.zIndex = '100';
+            emoji.style.animation = 'emojiFloat 6s linear forwards';
+            emoji.style.animationDelay = Math.random() * 2 + 's';
+            document.getElementById('emojiContainer').appendChild(emoji);
+
+            setTimeout(() => {
+                emoji.remove();
+            }, 8000);
+        }
+
+        // Create floating emojis periodically
+        setInterval(createFloatingEmoji, 2000);
+
+        // Mouse trail effect
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() < 0.05) {
+                const sparkle = document.createElement('div');
+                sparkle.textContent = '✨';
+                sparkle.style.position = 'absolute';
+                sparkle.style.left = e.pageX + 'px';
+                sparkle.style.top = e.pageY + 'px';
+                sparkle.style.fontSize = '20px';
+                sparkle.style.pointerEvents = 'none';
+                sparkle.style.zIndex = '999';
+                sparkle.style.color = 'white';
+                sparkle.style.animation = 'sparkle 1s linear forwards';
+                document.body.appendChild(sparkle);
+
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html> 
