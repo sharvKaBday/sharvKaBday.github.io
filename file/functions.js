@@ -27,7 +27,7 @@ $(window).resize(function() {
 				if (progress >= str.length) {
 					clearInterval(timer);
 				}
-			}, 50);
+			}, 55);
 		});
 		return this;
 	};
